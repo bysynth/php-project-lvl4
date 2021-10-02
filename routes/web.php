@@ -15,7 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    Log::debug('Test from prod');
-    Log::error('Error from prod');
     return view('welcome');
 });
