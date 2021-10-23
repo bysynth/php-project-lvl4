@@ -27,3 +27,7 @@ lint:
 
 lint-fix:
 	composer phpcbf
+
+ide:
+	php artisan ide-helper:generate
+	php artisan ide-helper:models -n
