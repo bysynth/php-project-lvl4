@@ -32,7 +32,7 @@ return [
         ],
         'buttons' => [
             'login' => 'Login'
-        ],
+        ]
     ],
     'register' => [
         'header' => 'Register',
@@ -44,6 +44,42 @@ return [
         ],
         'buttons' => [
             'register' => 'Register'
+        ]
+    ],
+    'task_statuses' => [
+        'index' => [
+            'header' => 'Statuses',
+            'table' => [
+                'id' => 'ID',
+                'name' => 'Name',
+                'date' => 'Date of creation',
+                'actions' => 'Actions'
+            ],
+            'buttons' => [
+                'create' => 'Create Status'
+            ],
+            'links' => [
+                'delete' => 'Delete',
+                'edit' => 'Edit'
+            ]
         ],
+        'create' => [
+            'header' => 'Create status',
+            'fields' => [
+                'name' => 'Name',
+            ],
+            'buttons' => [
+                'create' => 'Create'
+            ]
+        ],
+        'edit' => [
+            'header' => 'Edit status',
+            'fields' => [
+                'name' => 'Name',
+            ],
+            'buttons' => [
+                'update' => 'Update'
+            ]
+        ]
     ]
 ];

@@ -45,5 +45,41 @@ return [
         'buttons' => [
             'register' => 'Зарегистрировать'
         ],
+    ],
+    'task_statuses' => [
+        'index' => [
+            'header' => 'Статусы',
+            'table' => [
+                'id' => 'ID',
+                'name' => 'Имя',
+                'date' => 'Дата создания',
+                'actions' => 'Действия'
+            ],
+            'buttons' => [
+                'create' => 'Создать статус'
+            ],
+            'links' => [
+                'delete' => 'Удалить',
+                'edit' => 'Изменить'
+            ]
+        ],
+        'create' => [
+            'header' => 'Создать статус',
+            'fields' => [
+                'name' => 'Имя',
+            ],
+            'buttons' => [
+                'create' => 'Создать'
+            ]
+        ],
+        'edit' => [
+            'header' => 'Изменение статуса',
+            'fields' => [
+                'name' => 'Имя',
+            ],
+            'buttons' => [
+                'update' => 'Обновить'
+            ]
+        ]
     ]
 ];
