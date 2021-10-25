@@ -155,4 +155,10 @@ return [
 
     'attributes' => [],
 
+    'errors' => [
+        'task_statuses' => [
+            'unique' => 'A status with the same name already exists'
+        ]
+    ]
+
 ];
