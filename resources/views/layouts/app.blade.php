@@ -26,7 +26,7 @@
                             <a class="nav-link " href="#">{{ __('interface.nav.left.tasks') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">{{ __('interface.nav.left.statuses') }}</a>
+                            <a class="nav-link {{ setActiveLink('task_statuses.*') }}" href="{{ route('task_statuses.index') }}">{{ __('interface.nav.left.statuses') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link " href="#">{{ __('interface.nav.left.labels') }}</a>
@@ -65,7 +65,7 @@
                 </div>
             </div>
         </nav>
-        <main class="py-4">
+        <main class="container py-4">
             @include('flash::message')
             @yield('content')
         </main>
