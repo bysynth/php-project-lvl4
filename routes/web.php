@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskStatusController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -18,3 +19,4 @@ use Illuminate\Support\Facades\Route;
 Auth::routes(['confirm' => false, 'reset' => false]);
 Route::view('/', 'index')->name('index');
 Route::resource('task_statuses', TaskStatusController::class)->except('show');
+Route::resource('tasks', TaskController::class);
