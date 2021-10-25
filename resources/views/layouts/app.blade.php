@@ -16,20 +16,20 @@
                 <a class="navbar-brand" href="{{ route('index') }}">
                     {{ config('app.name') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('interface.nav.mobile.toggle') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('layouts.app.nav.mobile.toggle') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link " href="#">{{ __('interface.nav.left.tasks') }}</a>
+                            <a class="nav-link {{ setActiveLink('tasks.*') }}" href="{{ route('tasks.index') }}">{{ __('layouts.app.nav.left.tasks') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ setActiveLink('task_statuses.*') }}" href="{{ route('task_statuses.index') }}">{{ __('interface.nav.left.statuses') }}</a>
+                            <a class="nav-link {{ setActiveLink('task_statuses.*') }}" href="{{ route('task_statuses.index') }}">{{ __('layouts.app.nav.left.statuses') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">{{ __('interface.nav.left.labels') }}</a>
+                            <a class="nav-link " href="#">{{ __('layouts.app.nav.left.labels') }}</a>
                         </li>
                     </ul>
                     <!-- Right Side Of Navbar -->
@@ -38,12 +38,12 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('interface.nav.right.login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ __('layouts.app.nav.right.login') }}</a>
                                 </li>
                             @endif
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('interface.nav.right.register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('layouts.app.nav.right.register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -53,7 +53,7 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                        {{ __('interface.nav.right.logout') }}
+                                        {{ __('layouts.app.nav.right.logout') }}
                                     </a>
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

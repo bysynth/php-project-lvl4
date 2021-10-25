@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-5">{{ __('interface.task_statuses.index.header') }}</h1>
+    <h1 class="mb-5">{{ __('views.task_statuses.index.header') }}</h1>
     @auth
-    <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">{{ __('interface.task_statuses.index.buttons.create') }}</a>
+    <a href="{{ route('task_statuses.create') }}" class="btn btn-primary">{{ __('views.task_statuses.index.buttons.create') }}</a>
     @endauth
     <table class="table mt-2">
         <tr>
-            <th>{{ __('interface.task_statuses.index.table.id') }}</th>
-            <th>{{ __('interface.task_statuses.index.table.name') }}</th>
-            <th>{{ __('interface.task_statuses.index.table.date') }}</th>
+            <th>{{ __('views.task_statuses.index.table.id') }}</th>
+            <th>{{ __('views.task_statuses.index.table.name') }}</th>
+            <th>{{ __('views.task_statuses.index.table.date') }}</th>
             @auth
-            <th>{{ __('interface.task_statuses.index.table.actions') }}</th>
+            <th>{{ __('views.task_statuses.index.table.actions') }}</th>
             @endauth
         </tr>
         @foreach($taskStatuses as $taskStatus)
@@ -21,8 +21,8 @@
                 <td>{{ $taskStatus->created_at->format('d.m.Y') }}</td>
                 @auth
                 <td>
-                    <a class="text-danger" href="{{ route('task_statuses.destroy', $taskStatus) }}" data-confirm="Вы уверены?" data-method="delete">{{ __('interface.task_statuses.index.links.delete') }}</a>
-                    <a href="{{ route('task_statuses.edit', $taskStatus) }}">{{ __('interface.task_statuses.index.links.edit') }}</a>
+                    <a class="text-danger" href="{{ route('task_statuses.destroy', $taskStatus) }}" data-confirm="{{ __('views.task_statuses.index.data.del_confirm') }}" data-method="delete">{{ __('views.task_statuses.index.links.delete') }}</a>
+                    <a href="{{ route('task_statuses.edit', $taskStatus) }}">{{ __('views.task_statuses.index.links.edit') }}</a>
                 </td>
                 @endauth
             </tr>
