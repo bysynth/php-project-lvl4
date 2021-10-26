@@ -70,5 +70,57 @@ return [
                 'name' => 'Name',
             ]
         ]
+    ],
+    'tasks' => [
+        'index' => [
+            'header' => 'Tasks',
+            'table' => [
+                'id' => 'ID',
+                'status' => 'Status',
+                'name' => 'Name',
+                'author' => 'Author',
+                'executor' => 'Executor',
+                'date' => 'Date of creation',
+                'actions' => 'Actions'
+            ],
+            'buttons' => [
+                'apply' => 'Apply',
+                'create' => 'Create Task'
+            ],
+            'links' => [
+                'delete' => 'Delete',
+                'edit' => 'Edit'
+            ],
+            'data' => [
+                'del_confirm' => 'Are you sure?'
+            ]
+        ],
+        'create' => [
+            'header' => 'Create task',
+            'buttons' => [
+                'create' => 'Create'
+            ]
+        ],
+        'edit' => [
+            'header' => 'Edit task',
+            'buttons' => [
+                'update' => 'Update'
+            ]
+        ],
+        'form' => [
+            'fields' => [
+                'name' => 'Name',
+                'desc' => 'Description',
+                'status' => 'Status',
+                'executor' => 'Executor',
+                'labels' => 'Labels'
+            ]
+        ],
+        'show' => [
+            'header' => 'View a task',
+            'name' => 'Name',
+            'status' => 'Status',
+            'description' => 'Description'
+        ]
     ]
 ];
