@@ -2,7 +2,10 @@
 
 @section('content')
     <h1 class="mb-5">
-        {{__('views.tasks.show.header')}}: {{ $task->name }} <a href="{{ route('tasks.edit', $task) }}">&#9881;</a>
+        {{__('views.tasks.show.header')}}: {{ $task->name }}
+        @auth
+        <a href="{{ route('tasks.edit', $task) }}">&#9881;</a>
+        @endauth
     </h1>
     <p>{{__('views.tasks.show.name')}}: {{ $task->name }}</p>
     <p>{{__('views.tasks.show.status')}}: {{ $task->status->name }}</p>

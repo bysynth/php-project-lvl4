@@ -18,7 +18,9 @@
 {{--                <input class="btn btn-outline-primary mr-2" type="submit" value="{{ __('views.tasks.index.buttons.apply') }}">--}}
 {{--            </form>--}}
 {{--        </div>--}}
+        @auth
         <a href="{{ route('tasks.create') }}" class="btn btn-primary ml-auto">{{ __('views.tasks.index.buttons.create') }}</a>
+        @endauth
     </div>
     <table class="table mt-2">
         <tr>
@@ -28,7 +30,9 @@
             <th>{{ __('views.tasks.index.table.author') }}</th>
             <th>{{ __('views.tasks.index.table.executor') }}</th>
             <th>{{ __('views.tasks.index.table.date') }}</th>
+            @auth
             <th>{{ __('views.tasks.index.table.actions') }}</th>
+            @endauth
         </tr>
         @foreach($tasks as $task)
             <tr>
@@ -38,10 +42,14 @@
                 <td>{{ $task->creator->name }}</td>
                 <td>{{ $task->executor->name ?? '' }}</td>
                 <td>{{ $task->created_at->format('d.m.Y') }}</td>
+                @auth
                 <td>
+                    @can('delete', $task)
                     <a class="text-danger" href="{{ route('tasks.destroy', $task) }}" data-confirm="{{ __('views.tasks.index.data.del_confirm') }}" data-method="delete">{{ __('views.tasks.index.links.delete') }}</a>
+                    @endcan
                     <a href="{{ route('tasks.edit', $task) }}">{{ __('views.tasks.index.links.edit') }}</a>
                 </td>
+                @endauth
             </tr>
         @endforeach
     </table>
