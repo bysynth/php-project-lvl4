@@ -12,6 +12,11 @@ use Illuminate\View\View;
 
 class TaskController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Task::class, 'task');
+    }
+
     /**
      * @return View
      */
