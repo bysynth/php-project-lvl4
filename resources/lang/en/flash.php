@@ -12,5 +12,16 @@ return [
             'success' => 'Status deleted successfully',
             'failed' => 'Failed to delete status'
         ]
+    ],
+    'tasks' => [
+        'store' => [
+            'success' => 'Task successfully created'
+        ],
+        'update' => [
+            'success' => 'Task changed successfully'
+        ],
+        'destroy' => [
+            'success' => 'Task deleted successfully',
+        ]
     ]
 ];
