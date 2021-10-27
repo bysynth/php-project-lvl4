@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Tests\TestCase;
@@ -35,6 +36,7 @@ class TaskStatusTest extends TestCase
     public function testStore(): void
     {
         $data = ['name' => 'Test'];
+
         $response = $this->actingAs($this->user)
             ->post(route('task_statuses.store', $data));
         $response->assertSessionHasNoErrors();
@@ -44,7 +46,8 @@ class TaskStatusTest extends TestCase
 
     public function testStoreWithExistingTaskStatusName(): void
     {
-        $data = $this->taskStatus->toArray()['name'];
+        $data = $this->taskStatus->name;
+
         $response = $this->actingAs($this->user)
             ->post(route('task_statuses.store', $data));
         $response->assertSessionHasErrors('name');
@@ -61,6 +64,7 @@ class TaskStatusTest extends TestCase
     public function testUpdate(): void
     {
         $data = ['name' => 'Test'];
+
         $response = $this->actingAs($this->user)
             ->patch(route('task_statuses.update', $this->taskStatus), $data);
         $response->assertSessionHasNoErrors();
@@ -72,8 +76,9 @@ class TaskStatusTest extends TestCase
     {
         $newTaskStatus = TaskStatus::factory()->create();
         $data = [
-            'name' => $this->taskStatus->toArray()['name']
+            'name' => $this->taskStatus->name
         ];
+
         $response = $this->actingAs($this->user)
             ->patch(route('task_statuses.update', $newTaskStatus), $data);
         $response->assertSessionHasErrors('name');
@@ -87,5 +92,17 @@ class TaskStatusTest extends TestCase
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDeleted($this->taskStatus);
+    }
+
+    public function testDestroyTaskStatusThatUsedInTask(): void
+    {
+        $taskStatus = TaskStatus::factory()
+            ->has(Task::factory(), 'tasks')
+            ->create();
+
+        $response = $this->actingAs($this->user)
+            ->delete(route('task_statuses.destroy', $taskStatus));
+        $response->assertRedirect();
+        $this->assertDatabaseHas('task_statuses', $taskStatus->toArray());
     }
 }
