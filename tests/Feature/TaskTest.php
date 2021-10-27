@@ -52,6 +52,7 @@ class TaskTest extends TestCase
             ->for($this->user, 'creator')
             ->make(['name' => $this->task->name])
             ->toArray();
+
         $response = $this->actingAs($this->user)
             ->post(route('tasks.store', $data));
         $response->assertSessionHasErrors('name');
@@ -105,7 +106,10 @@ class TaskTest extends TestCase
 
     public function testDestroy(): void
     {
-        $existUserTask = Task::factory()->for($this->user, 'creator')->create();
+        $existUserTask = Task::factory()
+            ->for($this->user, 'creator')
+            ->create();
+
         $response = $this->actingAs($this->user)
             ->delete(route('tasks.destroy', $existUserTask));
         $response->assertSessionHasNoErrors();
