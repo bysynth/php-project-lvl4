@@ -122,5 +122,45 @@ return [
             'status' => 'Статус',
             'description' => 'Описание'
         ]
+    ],
+    'labels' => [
+        'index' => [
+            'header' => 'Метки',
+            'table' => [
+                'id' => 'ID',
+                'name' => 'Имя',
+                'desc' => 'Описание',
+                'date' => 'Дата создания',
+                'actions' => 'Действия'
+            ],
+            'buttons' => [
+                'create' => 'Создать метку'
+            ],
+            'links' => [
+                'delete' => 'Удалить',
+                'edit' => 'Изменить'
+            ],
+            'data' => [
+                'del_confirm' => 'Вы уверены?'
+            ]
+        ],
+        'create' => [
+            'header' => 'Создать метку',
+            'buttons' => [
+                'create' => 'Создать'
+            ]
+        ],
+        'edit' => [
+            'header' => 'Изменение метки',
+            'buttons' => [
+                'update' => 'Обновить'
+            ]
+        ],
+        'form' => [
+            'fields' => [
+                'name' => 'Имя',
+                'desc' => 'Описание'
+            ]
+        ]
     ]
 ];

@@ -43,7 +43,7 @@ return [
                 'actions' => 'Actions'
             ],
             'buttons' => [
-                'create' => 'Create Status'
+                'create' => 'Create status'
             ],
             'links' => [
                 'delete' => 'Delete',
@@ -85,7 +85,7 @@ return [
             ],
             'buttons' => [
                 'apply' => 'Apply',
-                'create' => 'Create Task'
+                'create' => 'Create task'
             ],
             'links' => [
                 'delete' => 'Delete',
@@ -121,6 +121,46 @@ return [
             'name' => 'Name',
             'status' => 'Status',
             'description' => 'Description'
+        ]
+    ],
+    'labels' => [
+        'index' => [
+            'header' => 'Labels',
+            'table' => [
+                'id' => 'ID',
+                'name' => 'Name',
+                'desc' => 'Description',
+                'date' => 'Date of creation',
+                'actions' => 'Actions'
+            ],
+            'buttons' => [
+                'create' => 'Create label'
+            ],
+            'links' => [
+                'delete' => 'Delete',
+                'edit' => 'Edit'
+            ],
+            'data' => [
+                'del_confirm' => 'Are you sure?'
+            ]
+        ],
+        'create' => [
+            'header' => 'Create label',
+            'buttons' => [
+                'create' => 'Create'
+            ]
+        ],
+        'edit' => [
+            'header' => 'Edit label',
+            'buttons' => [
+                'update' => 'Update'
+            ]
+        ],
+        'form' => [
+            'fields' => [
+                'name' => 'Name',
+                'desc' => 'Description'
+            ]
         ]
     ]
 ];
