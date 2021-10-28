@@ -29,7 +29,7 @@
                             <a class="nav-link {{ setActiveLink('task_statuses.*') }}" href="{{ route('task_statuses.index') }}">{{ __('layouts.app.nav.left.statuses') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " href="#">{{ __('layouts.app.nav.left.labels') }}</a>
+                            <a class="nav-link {{ setActiveLink('labels.*') }}" href="{{ route('labels.index') }}">{{ __('layouts.app.nav.left.labels') }}</a>
                         </li>
                     </ul>
                     <!-- Right Side Of Navbar -->
