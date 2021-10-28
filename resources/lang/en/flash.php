@@ -23,5 +23,17 @@ return [
         'destroy' => [
             'success' => 'Task deleted successfully',
         ]
+    ],
+    'labels' => [
+        'store' => [
+            'success' => 'Label successfully created'
+        ],
+        'update' => [
+            'success' => 'Label changed successfully'
+        ],
+        'destroy' => [
+            'success' => 'Label deleted successfully',
+            'failed' => 'Failed to delete label'
+        ]
     ]
 ];
