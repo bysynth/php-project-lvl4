@@ -120,7 +120,8 @@ return [
             'header' => 'Просмотр задачи',
             'name' => 'Имя',
             'status' => 'Статус',
-            'description' => 'Описание'
+            'description' => 'Описание',
+            'labels' => 'Метки'
         ]
     ],
     'labels' => [

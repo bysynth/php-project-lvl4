@@ -20,10 +20,7 @@
     {{ Form::label('assigned_to_id', __('views.tasks.form.fields.executor')) }}
     {{ Form::select('assigned_to_id', $users, null, ['placeholder' => '----------', 'class' => 'form-control']) }}
 </div>
-{{-- TODO Добавить форму для меток --}}
-{{--<div class="form-group">--}}
-{{--    <label for="labels">__('views.tasks.form.fields.labels')</label>--}}
-{{--    <select class="form-control" multiple name="labels[]">--}}
-{{--        <option value=""></option>--}}
-{{--    </select>--}}
-{{--</div>--}}
+<div class="form-group">
+    {{ Form::label('labels', __('views.tasks.form.fields.labels')) }}
+    {{ Form::select('labels[]', $labels, null, ['placeholder' => '', 'class' => 'form-control', 'multiple' => true]) }}
+</div>

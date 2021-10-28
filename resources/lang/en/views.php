@@ -120,7 +120,8 @@ return [
             'header' => 'View a task',
             'name' => 'Name',
             'status' => 'Status',
-            'description' => 'Description'
+            'description' => 'Description',
+            'labels' => 'Labels'
         ]
     ],
     'labels' => [
