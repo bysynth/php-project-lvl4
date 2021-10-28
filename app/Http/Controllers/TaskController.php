@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskRequest;
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -34,8 +35,9 @@ class TaskController extends Controller
         $task = new Task();
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
+        $labels = Label::pluck('name', 'id');
 
-        return view('tasks.create', compact('task', 'taskStatuses', 'users'));
+        return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     /**
@@ -45,9 +47,14 @@ class TaskController extends Controller
     public function store(TaskRequest $request): RedirectResponse
     {
         $task = new Task();
-        $task->fill($request->validated());
+        $validated = $request->validated();
+        $task->fill($validated);
         $task->creator()->associate(Auth::user());
         $task->save();
+
+        $labels = array_filter($validated['labels']);
+        $task->labels()->attach($labels);
+
         flash(__('flash.tasks.store.success'))->success();
 
         return redirect()->route('tasks.index');
@@ -59,7 +66,8 @@ class TaskController extends Controller
      */
     public function show(Task $task): View
     {
-        return view('tasks.show', compact('task'));
+        $labels = $task->labels;
+        return view('tasks.show', compact('task', 'labels'));
     }
 
     /**
@@ -70,8 +78,9 @@ class TaskController extends Controller
     {
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
+        $labels = Label::pluck('name', 'id');
 
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users'));
+        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
     }
 
     /**
@@ -81,7 +90,12 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task): RedirectResponse
     {
-        $task->update($request->validated());
+        $validated = $request->validated();
+        $task->update($validated);
+
+        $labels = array_filter($validated['labels']);
+        $task->labels()->sync($labels);
+
         flash(__('flash.tasks.update.success'))->success();
 
         return redirect()->route('tasks.index');
@@ -93,7 +107,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task): RedirectResponse
     {
+        $task->labels()->detach();
         $task->delete();
+
         flash(__('flash.tasks.destroy.success'))->success();
 
         return redirect()->route('tasks.index');

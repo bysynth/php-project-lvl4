@@ -31,7 +31,9 @@ class TaskRequest extends FormRequest
             ],
             'description' => 'nullable|string',
             'status_id' => 'required|exists:task_statuses,id',
-            'assigned_to_id' => 'nullable|exists:users,id'
+            'assigned_to_id' => 'nullable|exists:users,id',
+            'labels' => 'nullable|array',
+            'labels.*' => 'nullable|string|exists:labels,id'
         ];
     }
 
