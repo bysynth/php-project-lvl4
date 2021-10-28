@@ -52,7 +52,7 @@ class TaskController extends Controller
         $task->creator()->associate(Auth::user());
         $task->save();
 
-        $labels = array_filter($validated['labels']);
+        $labels = array_filter($validated['labels'] ?? []);
         $task->labels()->attach($labels);
 
         flash(__('flash.tasks.store.success'))->success();
@@ -93,7 +93,7 @@ class TaskController extends Controller
         $validated = $request->validated();
         $task->update($validated);
 
-        $labels = array_filter($validated['labels']);
+        $labels = array_filter($validated['labels'] ?? []);
         $task->labels()->sync($labels);
 
         flash(__('flash.tasks.update.success'))->success();

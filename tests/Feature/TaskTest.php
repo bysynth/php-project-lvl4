@@ -2,20 +2,24 @@
 
 namespace Tests\Feature;
 
+use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
+use Database\Factories\LabelFactory;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
 {
     private User $user;
     private Task $task;
+    private Label $label;
 
     protected function setUp(): void
     {
         parent::setUp();
 
         $this->user = User::factory()->create();
+        $this->label = Label::factory()->create();
         $this->task = Task::factory()->create();
     }
 
@@ -44,6 +48,22 @@ class TaskTest extends TestCase
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $data);
+    }
+
+    public function testStoreWithLabel(): void
+    {
+        $taskData = Task::factory()
+            ->for($this->user, 'creator')
+            ->make()
+            ->toArray();
+        $data = array_merge($taskData, ['labels' => [$this->label->id]]);
+
+        $response = $this->actingAs($this->user)
+            ->post(route('tasks.store', $data));
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
+        $this->assertDatabaseHas('tasks', $taskData);
+        $this->assertDatabaseCount('label_task', 1);
     }
 
     public function testStoreWithExistingTaskName(): void
@@ -85,6 +105,21 @@ class TaskTest extends TestCase
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $data);
+    }
+
+    public function testUpdateWithLabel(): void
+    {
+        $taskData = Task::factory()
+            ->make(['created_by_id' => $this->task->creator->id])
+            ->toArray();
+        $data = array_merge($taskData, ['labels' => [$this->label->id]]);
+
+        $response = $this->actingAs($this->user)
+            ->patch(route('tasks.update', $this->task), $data);
+        $response->assertSessionHasNoErrors();
+        $response->assertRedirect();
+        $this->assertDatabaseHas('tasks', $taskData);
+        $this->assertDatabaseCount('label_task', 1);
     }
 
     public function testUpdateWithExistingTaskName(): void
