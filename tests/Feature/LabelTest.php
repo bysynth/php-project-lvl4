@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class LabelTest extends TestCase
@@ -16,8 +17,10 @@ class LabelTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->label = Label::factory()->create();
+        $user = User::factory()->create();
+        $this->user = Auth::loginUsingId($user->id);
+        $labelData = Label::factory()->make()->toArray();
+        $this->label = Label::create($labelData);
     }
 
     public function testIndex(): void

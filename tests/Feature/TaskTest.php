@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
-use Database\Factories\LabelFactory;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class TaskTest extends TestCase
@@ -18,9 +18,12 @@ class TaskTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->label = Label::factory()->create();
-        $this->task = Task::factory()->create();
+        $user = User::factory()->create();
+        $this->user = Auth::loginUsingId($user->id);
+        $labelData = Label::factory()->make()->toArray();
+        $this->label = Label::create($labelData);
+        $taskData = Task::factory()->make()->toArray();
+        $this->task = Task::create($taskData);
     }
 
     public function testIndex(): void
@@ -97,7 +100,7 @@ class TaskTest extends TestCase
     public function testUpdate(): void
     {
         $data = Task::factory()
-            ->make(['created_by_id' => $this->task->creator->id])
+            ->make(['created_by_id' => $this->task->created_by_id])
             ->toArray();
 
         $response = $this->actingAs($this->user)
@@ -110,7 +113,7 @@ class TaskTest extends TestCase
     public function testUpdateWithLabel(): void
     {
         $taskData = Task::factory()
-            ->make(['created_by_id' => $this->task->creator->id])
+            ->make(['created_by_id' => $this->task->created_by_id])
             ->toArray();
         $data = array_merge($taskData, ['labels' => [$this->label->id]]);
 
@@ -124,12 +127,13 @@ class TaskTest extends TestCase
 
     public function testUpdateWithExistingTaskName(): void
     {
-        $anotherTask = Task::factory()->create();
+        $anotherTaskData = Task::factory()->make()->toArray();
+        $anotherTask = Task::create($anotherTaskData);
         $existingName = $anotherTask->name;
         $data = Task::factory()
             ->make([
                 'name' => $existingName,
-                'created_by_id' => $this->task->creator->id,
+                'created_by_id' => $this->task->created_by_id,
             ])
             ->toArray();
 

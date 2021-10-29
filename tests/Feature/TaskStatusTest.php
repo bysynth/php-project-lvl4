@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class TaskStatusTest extends TestCase
@@ -16,8 +17,10 @@ class TaskStatusTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
-        $this->taskStatus = TaskStatus::factory()->create();
+        $user = User::factory()->create();
+        $this->user = Auth::loginUsingId($user->id);
+        $taskStatusData = TaskStatus::factory()->make()->toArray();
+        $this->taskStatus = TaskStatus::create($taskStatusData);
     }
 
     public function testIndex(): void

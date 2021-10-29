@@ -14,7 +14,7 @@ class TaskStatusPolicy
      * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function viewAny(?User $user): bool
     {
@@ -25,7 +25,7 @@ class TaskStatusPolicy
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function create(User $user): bool
     {
@@ -37,7 +37,7 @@ class TaskStatusPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function update(User $user, TaskStatus $taskStatus): bool
     {
@@ -49,7 +49,7 @@ class TaskStatusPolicy
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\TaskStatus  $taskStatus
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return bool
      */
     public function delete(User $user, TaskStatus $taskStatus): bool
     {

@@ -36,7 +36,7 @@ class TaskController extends Controller
                 AllowedFilter::exact('assigned_to_id')
             ])
             ->paginate(5)
-            ->appends(request()->query());
+            ->appends(request()->query() ?? []);
         $taskStatuses = TaskStatus::pluck('name', 'id');
         $users = User::pluck('name', 'id');
 
@@ -110,7 +110,7 @@ class TaskController extends Controller
         $task->update($validated);
 
         $labels = array_filter($validated['labels'] ?? []);
-        $task->labels()->sync($labels);
+        $task->labels()->sync($labels ?? []);
 
         flash(__('flash.tasks.update.success'))->success();
 

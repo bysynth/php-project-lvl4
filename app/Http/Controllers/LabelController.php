@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LabelRequest;
 use App\Models\Label;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class LabelController extends Controller
@@ -69,7 +68,11 @@ class LabelController extends Controller
         return redirect()->route('labels.index');
     }
 
-    public function destroy(Label $label)
+    /**
+     * @param Label $label
+     * @return RedirectResponse
+     */
+    public function destroy(Label $label): RedirectResponse
     {
         if ($label->tasks->isNotEmpty()) {
             flash(__('flash.labels.destroy.failed'))->error();
