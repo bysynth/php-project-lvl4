@@ -74,6 +74,11 @@ return [
     'tasks' => [
         'index' => [
             'header' => 'Tasks',
+            'filter' => [
+                'status' => 'Status',
+                'author' => 'Author',
+                'executor' => 'Executor'
+            ],
             'table' => [
                 'id' => 'ID',
                 'status' => 'Status',

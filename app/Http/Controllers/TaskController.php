@@ -8,8 +8,11 @@ use App\Models\Task;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class TaskController extends Controller
 {
@@ -18,13 +21,26 @@ class TaskController extends Controller
         $this->authorizeResource(Task::class, 'task');
     }
 
+
     /**
+     * @param Request $request
      * @return View
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $tasks = Task::paginate(5);
-        return view('tasks.index', compact('tasks'));
+        $filter = $request->input('filter');
+        $tasks = QueryBuilder::for(Task::class)
+            ->allowedFilters([
+                AllowedFilter::exact('status_id'),
+                AllowedFilter::exact('created_by_id'),
+                AllowedFilter::exact('assigned_to_id')
+            ])
+            ->paginate(5)
+            ->appends(request()->query());
+        $taskStatuses = TaskStatus::pluck('name', 'id');
+        $users = User::pluck('name', 'id');
+
+        return view('tasks.index', compact('filter', 'tasks', 'taskStatuses', 'users'));
     }
 
     /**

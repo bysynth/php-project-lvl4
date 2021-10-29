@@ -74,6 +74,11 @@ return [
     'tasks' => [
         'index' => [
             'header' => 'Задачи',
+            'filter' => [
+                'status' => 'Статус',
+                'author' => 'Автор',
+                'executor' => 'Исполнитель'
+            ],
             'table' => [
                 'id' => 'ID',
                 'status' => 'Статус',
