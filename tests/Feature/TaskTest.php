@@ -80,7 +80,7 @@ class TaskTest extends TestCase
         $this->assertDatabaseMissing('tasks', $data);
     }
 
-    public function testShow():void
+    public function testShow(): void
     {
         $response = $this->actingAs($this->user)
             ->get(route('tasks.show', $this->task));
