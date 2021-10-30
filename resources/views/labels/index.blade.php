@@ -1,18 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-5">{{ __('views.labels.index.header') }}</h1>
+    <h1 class="mb-5">{{ __('labels.index.header') }}</h1>
     @auth
-    <a href="{{ route('labels.create') }}" class="btn btn-primary">{{ __('views.labels.index.buttons.create') }}</a>
+        <a href="{{ route('labels.create') }}" class="btn btn-primary">{{ __('buttons.create_label') }}</a>
     @endauth
     <table class="table mt-2">
         <tr>
-            <th>{{ __('views.labels.index.table.id') }}</th>
-            <th>{{ __('views.labels.index.table.name') }}</th>
-            <th>{{ __('views.labels.index.table.desc') }}</th>
-            <th>{{ __('views.labels.index.table.date') }}</th>
+            <th>{{ __('labels.index.table.id') }}</th>
+            <th>{{ __('labels.index.table.name') }}</th>
+            <th>{{ __('labels.index.table.desc') }}</th>
+            <th>{{ __('labels.index.table.date') }}</th>
             @auth
-            <th>{{ __('views.labels.index.table.actions') }}</th>
+                <th>{{ __('labels.index.table.actions') }}</th>
             @endauth
         </tr>
         @foreach($labels as $label)
@@ -22,12 +22,14 @@
                 <td>{{ $label->description }}</td>
                 <td>{{ $label->created_at->format('d.m.Y') }}</td>
                 @auth
-                <td>
-                    <a class="text-danger" href="{{ route('labels.destroy', $label) }}" data-confirm="{{ __('views.labels.index.data.del_confirm') }}" data-method="delete">{{ __('views.labels.index.links.delete') }}</a>
-                    <a href="{{ route('labels.edit', $label) }}">{{ __('views.labels.index.links.edit') }}</a>
-                </td>
+                    <td>
+                        <a class="text-danger" href="{{ route('labels.destroy', $label) }}"
+                           data-confirm="{{ __('links.delete_confirmation') }}"
+                           data-method="delete">{{ __('links.delete') }}</a>
+                        <a href="{{ route('labels.edit', $label) }}">{{ __('links.edit') }}</a>
+                    </td>
                 @endauth
-        </tr>
+            </tr>
         @endforeach
     </table>
     {{ $labels->links() }}

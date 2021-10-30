@@ -1,31 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="mb-5">{{ __('views.tasks.index.header') }}</h1>
+    <h1 class="mb-5">{{ __('tasks.index.header') }}</h1>
     <div class="d-flex">
         <div>
             {{ Form::open(['url' => route('tasks.index'), 'method' => 'GET', 'class' => 'form-inline']) }}
-                {{ Form::select('filter[status_id]', $taskStatuses, $filter['status_id'] ?? null, ['placeholder' => __('views.tasks.index.filter.status'), 'class' => 'form-control mr-2']) }}
-                {{ Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => __('views.tasks.index.filter.author'), 'class' => 'form-control mr-2']) }}
-                {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('views.tasks.index.filter.executor'), 'class' => 'form-control mr-2']) }}
-                {{ Form::submit(__('views.tasks.index.buttons.apply'), ['class' => 'btn btn-outline-primary mr-2']) }}
+                {{ Form::select('filter[status_id]', $taskStatuses, $filter['status_id'] ?? null, ['placeholder' => __('tasks.index.filter.status'), 'class' => 'form-control mr-2']) }}
+                {{ Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => __('tasks.index.filter.author'), 'class' => 'form-control mr-2']) }}
+                {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('tasks.index.filter.executor'), 'class' => 'form-control mr-2']) }}
+                {{ Form::submit(__('buttons.apply'), ['class' => 'btn btn-outline-primary mr-2']) }}
             {{ Form::close() }}
         </div>
         @auth
             <a href="{{ route('tasks.create') }}"
-               class="btn btn-primary ml-auto">{{ __('views.tasks.index.buttons.create') }}</a>
+               class="btn btn-primary ml-auto">{{ __('buttons.create_task') }}</a>
         @endauth
     </div>
     <table class="table mt-2">
         <tr>
-            <th>{{ __('views.tasks.index.table.id') }}</th>
-            <th>{{ __('views.tasks.index.table.status') }}</th>
-            <th>{{ __('views.tasks.index.table.name') }}</th>
-            <th>{{ __('views.tasks.index.table.author') }}</th>
-            <th>{{ __('views.tasks.index.table.executor') }}</th>
-            <th>{{ __('views.tasks.index.table.date') }}</th>
+            <th>{{ __('tasks.index.table.id') }}</th>
+            <th>{{ __('tasks.index.table.status') }}</th>
+            <th>{{ __('tasks.index.table.name') }}</th>
+            <th>{{ __('tasks.index.table.author') }}</th>
+            <th>{{ __('tasks.index.table.executor') }}</th>
+            <th>{{ __('tasks.index.table.date') }}</th>
             @auth
-                <th>{{ __('views.tasks.index.table.actions') }}</th>
+                <th>{{ __('tasks.index.table.actions') }}</th>
             @endauth
         </tr>
         @foreach($tasks as $task)
@@ -40,10 +40,10 @@
                     <td>
                         @can('delete', $task)
                             <a class="text-danger" href="{{ route('tasks.destroy', $task) }}"
-                               data-confirm="{{ __('views.tasks.index.data.del_confirm') }}"
-                               data-method="delete">{{ __('views.tasks.index.links.delete') }}</a>
+                               data-confirm="{{ __('links.delete_confirmation') }}"
+                               data-method="delete">{{ __('links.delete') }}</a>
                         @endcan
-                        <a href="{{ route('tasks.edit', $task) }}">{{ __('views.tasks.index.links.edit') }}</a>
+                        <a href="{{ route('tasks.edit', $task) }}">{{ __('links.edit') }}</a>
                     </td>
                 @endauth
             </tr>
