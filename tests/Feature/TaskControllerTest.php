@@ -5,10 +5,9 @@ namespace Tests\Feature;
 use App\Models\Label;
 use App\Models\Task;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
-class TaskTest extends TestCase
+class TaskControllerTest extends TestCase
 {
     private User $user;
     private Task $task;
@@ -29,8 +28,6 @@ class TaskTest extends TestCase
         /** @var Label $label */
         $label = Label::factory()->create();
         $this->label = $label;
-
-        $this->actingAs($this->user);
     }
 
     public function testIndex(): void
@@ -41,21 +38,23 @@ class TaskTest extends TestCase
 
     public function testCreate(): void
     {
-        $response = $this->get(route('tasks.create'));
+        $response = $this->actingAs($this->user)
+            ->get(route('tasks.create'));
         $response->assertOk();
     }
 
     public function testStore(): void
     {
-        $data = Task::factory()
+        $taskData = Task::factory()
             ->for($this->user, 'creator')
             ->make()
             ->toArray();
 
-        $response = $this->post(route('tasks.store', $data));
+        $response = $this->actingAs($this->user)
+            ->post(route('tasks.store', $taskData));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
-        $this->assertDatabaseHas('tasks', $data);
+        $this->assertDatabaseHas('tasks', $taskData);
     }
 
     public function testStoreWithLabel(): void
@@ -64,26 +63,14 @@ class TaskTest extends TestCase
             ->for($this->user, 'creator')
             ->make()
             ->toArray();
-        $data = array_merge($taskData, ['labels' => [$this->label->id]]);
+        $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
 
-        $response = $this->post(route('tasks.store', $data));
+        $response = $this->actingAs($this->user)
+            ->post(route('tasks.store', $taskDataWithLabel));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
         $this->assertDatabaseCount('label_task', 1);
-    }
-
-    public function testStoreWithExistingTaskName(): void
-    {
-        $data = Task::factory()
-            ->for($this->user, 'creator')
-            ->make(['name' => $this->task->name])
-            ->toArray();
-
-        $response = $this->post(route('tasks.store', $data));
-        $response->assertSessionHasErrors('name');
-        $response->assertRedirect();
-        $this->assertDatabaseMissing('tasks', $data);
     }
 
     public function testShow(): void
@@ -94,20 +81,22 @@ class TaskTest extends TestCase
 
     public function testEdit(): void
     {
-        $response = $this->get(route('tasks.edit', $this->task));
+        $response = $this->actingAs($this->user)
+            ->get(route('tasks.edit', $this->task));
         $response->assertOk();
     }
 
     public function testUpdate(): void
     {
-        $data = Task::factory()
+        $taskData = Task::factory()
             ->make(['created_by_id' => $this->task->created_by_id])
             ->toArray();
 
-        $response = $this->patch(route('tasks.update', $this->task), $data);
+        $response = $this->actingAs($this->user)
+            ->patch(route('tasks.update', $this->task), $taskData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
-        $this->assertDatabaseHas('tasks', $data);
+        $this->assertDatabaseHas('tasks', $taskData);
     }
 
     public function testUpdateWithLabel(): void
@@ -115,30 +104,14 @@ class TaskTest extends TestCase
         $taskData = Task::factory()
             ->make(['created_by_id' => $this->task->created_by_id])
             ->toArray();
-        $data = array_merge($taskData, ['labels' => [$this->label->id]]);
+        $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
 
-        $response = $this->patch(route('tasks.update', $this->task), $data);
+        $response = $this->actingAs($this->user)
+            ->patch(route('tasks.update', $this->task), $taskDataWithLabel);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
         $this->assertDatabaseCount('label_task', 1);
-    }
-
-    public function testUpdateWithExistingTaskName(): void
-    {
-        $anotherTaskData = Task::factory()->make()->toArray();
-        $anotherTask = Task::create($anotherTaskData);
-        $existingName = $anotherTask->name;
-        $data = Task::factory()
-            ->make([
-                'name' => $existingName,
-                'created_by_id' => $this->task->created_by_id,
-            ])
-            ->toArray();
-
-        $response = $this->patch(route('tasks.update', $this->task), $data);
-        $response->assertSessionHasErrors('name');
-        $response->assertRedirect();
     }
 
     public function testDestroy(): void
@@ -147,7 +120,8 @@ class TaskTest extends TestCase
             ->for($this->user, 'creator')
             ->create();
 
-        $response = $this->delete(route('tasks.destroy', $existUserTask));
+        $response = $this->actingAs($this->user)
+            ->delete(route('tasks.destroy', $existUserTask));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDeleted($existUserTask);
