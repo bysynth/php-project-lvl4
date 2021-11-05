@@ -64,25 +64,29 @@ class TaskControllerTest extends TestCase
             ->make()
             ->toArray();
         $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
+        $labelTaskTableExpectedData = [
+            'label_id' => $this->label->id,
+            'task_id' => $this->task->id + 1
+        ];
 
         $response = $this->actingAs($this->user)
             ->post(route('tasks.store', $taskDataWithLabel));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
-        $this->assertDatabaseCount('label_task', 1);
+        $this->assertDatabaseHas('label_task', $labelTaskTableExpectedData);
     }
 
     public function testShow(): void
     {
-        $response = $this->get(route('tasks.show', $this->task));
+        $response = $this->get(route('tasks.show', $this->task->id));
         $response->assertOk();
     }
 
     public function testEdit(): void
     {
         $response = $this->actingAs($this->user)
-            ->get(route('tasks.edit', $this->task));
+            ->get(route('tasks.edit', $this->task->id));
         $response->assertOk();
     }
 
@@ -93,7 +97,7 @@ class TaskControllerTest extends TestCase
             ->toArray();
 
         $response = $this->actingAs($this->user)
-            ->patch(route('tasks.update', $this->task), $taskData);
+            ->patch(route('tasks.update', $this->task->id), $taskData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
@@ -105,13 +109,17 @@ class TaskControllerTest extends TestCase
             ->make(['created_by_id' => $this->task->created_by_id])
             ->toArray();
         $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
+        $labelTaskTableExpectedData = [
+            'label_id' => $this->label->id,
+            'task_id' => $this->task->id
+        ];
 
         $response = $this->actingAs($this->user)
-            ->patch(route('tasks.update', $this->task), $taskDataWithLabel);
+            ->patch(route('tasks.update', $this->task->id), $taskDataWithLabel);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
-        $this->assertDatabaseCount('label_task', 1);
+        $this->assertDatabaseHas('label_task', $labelTaskTableExpectedData);
     }
 
     public function testDestroy(): void
@@ -121,7 +129,7 @@ class TaskControllerTest extends TestCase
             ->create();
 
         $response = $this->actingAs($this->user)
-            ->delete(route('tasks.destroy', $existUserTask));
+            ->delete(route('tasks.destroy', $existUserTask->id));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDeleted($existUserTask);
@@ -129,7 +137,7 @@ class TaskControllerTest extends TestCase
 
     public function testDestroyTaskThatNotBelongToUser(): void
     {
-        $response = $this->delete(route('tasks.destroy', $this->task));
+        $response = $this->delete(route('tasks.destroy', $this->task->id));
         $response->assertForbidden();
     }
 }

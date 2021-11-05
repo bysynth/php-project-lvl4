@@ -52,7 +52,7 @@ class LabelControllerTest extends TestCase
     public function testEdit(): void
     {
         $response = $this->actingAs($this->user)
-            ->get(route('labels.edit', $this->label));
+            ->get(route('labels.edit', $this->label->id));
         $response->assertOk();
     }
 
@@ -61,7 +61,7 @@ class LabelControllerTest extends TestCase
         $labelData = Label::factory()->make()->toArray();
 
         $response = $this->actingAs($this->user)
-            ->patch(route('labels.update', $this->label), $labelData);
+            ->patch(route('labels.update', $this->label->id), $labelData);
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('labels', $labelData);
@@ -70,7 +70,7 @@ class LabelControllerTest extends TestCase
     public function testDestroy(): void
     {
         $response = $this->actingAs($this->user)
-            ->delete(route('labels.destroy', $this->label));
+            ->delete(route('labels.destroy', $this->label->id));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDeleted($this->label);
