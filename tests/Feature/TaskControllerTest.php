@@ -64,18 +64,15 @@ class TaskControllerTest extends TestCase
             ->make()
             ->toArray();
         $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
+        $labelTaskTableExpectedData = [
+            'label_id' => $this->label->id
+        ];
 
         $response = $this->actingAs($this->user)
             ->post(route('tasks.store', $taskDataWithLabel));
         $response->assertSessionHasNoErrors();
         $response->assertRedirect();
         $this->assertDatabaseHas('tasks', $taskData);
-
-        $lastSavedTask = Task::all()->last();
-        $labelTaskTableExpectedData = [
-            'label_id' => $this->label->id,
-            'task_id' => $lastSavedTask->id
-        ];
         $this->assertDatabaseHas('label_task', $labelTaskTableExpectedData);
     }
 
