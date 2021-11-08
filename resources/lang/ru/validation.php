@@ -127,7 +127,8 @@ return [
     ],
 
     'attributes' => [
-        'password' => 'Пароль'
+        'password' => 'Пароль',
+        'name' => 'Имя'
     ],
 
     'errors' => [

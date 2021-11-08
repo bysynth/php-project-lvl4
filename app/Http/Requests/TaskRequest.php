@@ -27,6 +27,7 @@ class TaskRequest extends FormRequest
         return [
             'name' => [
                 'required',
+                'max:255',
                 Rule::unique('tasks', 'name')->ignore($this->task)
             ],
             'description' => 'nullable|string',
