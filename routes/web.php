@@ -23,4 +23,4 @@ Route::resource('task_statuses', TaskStatusController::class)
     ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
 Route::resource('tasks', TaskController::class);
 Route::resource('labels', LabelController::class)
-    ->only('index', 'create', 'store', 'edit', 'update', 'destroy');;
+    ->only('index', 'create', 'store', 'edit', 'update', 'destroy');
