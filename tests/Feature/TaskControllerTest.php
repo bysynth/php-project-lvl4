@@ -65,8 +65,7 @@ class TaskControllerTest extends TestCase
             ->toArray();
         $taskDataWithLabel = array_merge($taskData, ['labels' => [$this->label->id]]);
         $labelTaskTableExpectedData = [
-            'label_id' => $this->label->id,
-            'task_id' => $this->task->id + 1
+            'label_id' => $this->label->id
         ];
 
         $response = $this->actingAs($this->user)

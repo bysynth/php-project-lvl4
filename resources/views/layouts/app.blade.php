@@ -52,12 +52,9 @@
                                     {{ Auth::user()->name }}
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}" data-method="post">
                                         {{ __('layouts.app.nav.right.logout') }}
                                     </a>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                        @csrf
-                                    </form>
                                 </div>
                             </li>
                         @endguest
@@ -70,8 +67,5 @@
             @yield('content')
         </main>
     </div>
-    <script>
-        $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
-    </script>
 </body>
 </html>
