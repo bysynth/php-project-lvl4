@@ -78,6 +78,7 @@ class TaskStatusControllerTest extends TestCase
 
     public function testDestroyTaskStatusThatUsedInTask(): void
     {
+        /** @var TaskStatus $taskStatus */
         $taskStatus = TaskStatus::factory()
             ->has(Task::factory(), 'tasks')
             ->create();
@@ -85,6 +86,6 @@ class TaskStatusControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->delete(route('task_statuses.destroy', $taskStatus->id));
         $response->assertRedirect();
-        $this->assertDatabaseHas('task_statuses', $taskStatus->toArray());
+        $this->assertModelExists($taskStatus);
     }
 }

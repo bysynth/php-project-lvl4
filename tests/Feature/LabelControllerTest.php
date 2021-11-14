@@ -78,6 +78,7 @@ class LabelControllerTest extends TestCase
 
     public function testDestroyLabelThatUsedInTask(): void
     {
+        /** @var Label $label */
         $label = Label::factory()
             ->has(Task::factory(), 'tasks')
             ->create();
@@ -85,6 +86,6 @@ class LabelControllerTest extends TestCase
         $response = $this->actingAs($this->user)
             ->delete(route('labels.destroy', $label));
         $response->assertRedirect();
-        $this->assertDatabaseHas('labels', $label->toArray());
+        $this->assertModelExists($label);
     }
 }

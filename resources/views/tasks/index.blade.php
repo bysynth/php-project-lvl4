@@ -5,9 +5,9 @@
     <div class="d-flex">
         <div>
             {{ Form::open(['url' => route('tasks.index'), 'method' => 'GET', 'class' => 'form-inline']) }}
-                {{ Form::select('filter[status_id]', $taskStatuses, $filter['status_id'] ?? null, ['placeholder' => __('tasks.index.filter.status'), 'class' => 'form-control mr-2']) }}
-                {{ Form::select('filter[created_by_id]', $users, $filter['created_by_id'] ?? null, ['placeholder' => __('tasks.index.filter.author'), 'class' => 'form-control mr-2']) }}
-                {{ Form::select('filter[assigned_to_id]', $users, $filter['assigned_to_id'] ?? null, ['placeholder' => __('tasks.index.filter.executor'), 'class' => 'form-control mr-2']) }}
+                {{ Form::select('filter[status_id]', $taskStatusesFilterData, $filter['status_id'] ?? null, ['placeholder' => __('tasks.index.filter.status'), 'class' => 'form-control mr-2']) }}
+                {{ Form::select('filter[created_by_id]', $usersFilterData, $filter['created_by_id'] ?? null, ['placeholder' => __('tasks.index.filter.author'), 'class' => 'form-control mr-2']) }}
+                {{ Form::select('filter[assigned_to_id]', $usersFilterData, $filter['assigned_to_id'] ?? null, ['placeholder' => __('tasks.index.filter.executor'), 'class' => 'form-control mr-2']) }}
                 {{ Form::submit(__('buttons.apply'), ['class' => 'btn btn-outline-primary mr-2']) }}
             {{ Form::close() }}
         </div>
@@ -34,7 +34,7 @@
                 <td>{{ $task->status->name }}</td>
                 <td><a href="{{ route('tasks.show', $task) }}">{{ $task->name }}</a></td>
                 <td>{{ $task->creator->name }}</td>
-                <td>{{ $task->executor->name ?? '' }}</td>
+                <td>{{ optional($task->executor)->name }}</td>
                 <td>{{ $task->created_at->format('d.m.Y') }}</td>
                 @auth
                     <td>

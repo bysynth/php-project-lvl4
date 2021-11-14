@@ -36,11 +36,11 @@ class TaskController extends Controller
                 AllowedFilter::exact('assigned_to_id')
             ])
             ->paginate(5)
-            ->appends(request()->query() ?? []);
-        $taskStatuses = TaskStatus::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
+            ->withQueryString();
+        $taskStatusesFilterData = TaskStatus::pluck('name', 'id');
+        $usersFilterData = User::pluck('name', 'id');
 
-        return view('tasks.index', compact('filter', 'tasks', 'taskStatuses', 'users'));
+        return view('tasks.index', compact('filter', 'tasks', 'taskStatusesFilterData', 'usersFilterData'));
     }
 
     /**
@@ -49,11 +49,11 @@ class TaskController extends Controller
     public function create(): View
     {
         $task = new Task();
-        $taskStatuses = TaskStatus::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name', 'id');
+        $taskStatusesFormData = TaskStatus::pluck('name', 'id');
+        $usersFormData = User::pluck('name', 'id');
+        $labelsFormData = Label::pluck('name', 'id');
 
-        return view('tasks.create', compact('task', 'taskStatuses', 'users', 'labels'));
+        return view('tasks.create', compact('task', 'taskStatusesFormData', 'usersFormData', 'labelsFormData'));
     }
 
     /**
@@ -92,11 +92,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task): View
     {
-        $taskStatuses = TaskStatus::pluck('name', 'id');
-        $users = User::pluck('name', 'id');
-        $labels = Label::pluck('name', 'id');
+        $taskStatusesFormData = TaskStatus::pluck('name', 'id');
+        $usersFormData = User::pluck('name', 'id');
+        $labelsFormData = Label::pluck('name', 'id');
 
-        return view('tasks.edit', compact('task', 'taskStatuses', 'users', 'labels'));
+        return view('tasks.edit', compact('task', 'taskStatusesFormData', 'usersFormData', 'labelsFormData'));
     }
 
     /**
